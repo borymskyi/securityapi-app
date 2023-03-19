@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    schemas: public
+    baseline-on-migrate: true
+
+logging:
+  level:
+    root: info
+
+sentry:
+  dsn: https://1e1bf486fe0a46daacd409376a1b14e7@o1278824.ingest.sentry.io/4504802888122368
+  traces-sample-rate: 1.0
+  logging:
+    minimum-event-level: warn
+
+server:
+  error:
+    include-message: always
+    include-exception: true
+    include-stacktrace: always
+
+#App properties
+app:
+  jwtSecret: MegaLargeSigningSecretKeyForCryptoScannerApplication

@@ -45,6 +45,9 @@ public class Person {
     }
 
     public void addRoles(List<Role> roles) {
+        if (this.roles == null) {
+            roles = new ArrayList<>();
+        }
         for (Role r : roles) {
             this.roles.add(r);
         }

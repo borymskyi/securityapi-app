@@ -2,6 +2,7 @@ package com.securityapi.service.impl;
 
 import com.securityapi.domain.ERole;
 import com.securityapi.domain.Role;
+import com.securityapi.exception.RoleNotFoundException;
 import com.securityapi.repository.RoleRepository;
 import com.securityapi.service.RoleService;
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class RoleServiceImpl implements RoleService {
         return roleRepository.findRoleByName(eRole)
                 .orElseThrow(() -> {
                     log.error("failed to find the role with name: " + eRole.name());
-                    return new IllegalArgumentException(String.format("Role %s not found", eRole));
+                    return new RoleNotFoundException(String.format("Role %s not found", eRole));
                 });
 
     }

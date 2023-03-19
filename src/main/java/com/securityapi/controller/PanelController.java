@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/panels")
 public class PanelController {
 
+    @GetMapping
+    public String test() {
+        return "hello";
+    }
+
     @GetMapping("/user")
     @PreAuthorize("hasRole('USER') or hasRole('ADMIN')")
     public String getCryptoPanel() {

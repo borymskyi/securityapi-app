@@ -4,6 +4,8 @@ import com.securityapi.config.security.jwt.AuthenticationManagerFilter;
 import com.securityapi.dto.*;
 import com.securityapi.service.PersonService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -23,23 +25,16 @@ public class AuthController {
 
     @PostMapping("/sign-up")
     public ResponseEntity<?> registration(@RequestBody SignupRequestDTO signupRequestDTO) {
-        try {
-            personService.saveProfile(signupRequestDTO);
-            return ResponseEntity.ok(new MessageResponseDTO("User CREATED"));
-        } catch (RuntimeException e ) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        personService.saveProfile(signupRequestDTO);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body("Person created");
     }
 
     @PostMapping("/sign-in")
     public ResponseEntity<?> authenticateProfile(@RequestBody AuthenticationRequestDTO authRequest) {
-        try {
-            Authentication auth = authenticationManagerFilter.authenticateRequest(authRequest);
-            JwtResponseDTO jwtResponse = authenticationManagerFilter.handlingSuccessfulAuthentication(auth);
-            return ResponseEntity.ok(jwtResponse);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest()
-                    .body(String.format("The requested email %s was not found.", authRequest.getEmail()));
-        }
+        Authentication auth = authenticationManagerFilter.authenticateRequest(authRequest);
+        JwtResponseDTO jwtResponse = authenticationManagerFilter.handlingSuccessfulAuthentication(auth);
+
+        return ResponseEntity.ok(jwtResponse);
     }
 }

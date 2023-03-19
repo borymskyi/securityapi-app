@@ -1,9 +1,6 @@
 package com.securityapi.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.List;
 
@@ -12,9 +9,7 @@ import java.util.List;
  * @version 1.0
  */
 
-@Setter
-@Getter
-@AllArgsConstructor
+@Data
 @Builder
 public class PersonDTO {
     private Long id;

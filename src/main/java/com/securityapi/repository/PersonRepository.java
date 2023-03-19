@@ -1,10 +1,12 @@
 package com.securityapi.repository;
 
+import com.securityapi.domain.ERole;
 import com.securityapi.domain.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -19,4 +21,6 @@ public interface PersonRepository extends JpaRepository<Person, Long> {
     Optional<Person> findByEmailFetchRoles(String email);
 
     Boolean existsByEmail(String email);
+
+    List<Person> findAllByRolesName(ERole roleName);
 }

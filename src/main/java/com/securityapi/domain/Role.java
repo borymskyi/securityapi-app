@@ -35,6 +35,5 @@ public class Role {
 
     public void addPerson(Person person) {
         this.persons.add(person);
-        person.getRoles().add(this);
     }
 }

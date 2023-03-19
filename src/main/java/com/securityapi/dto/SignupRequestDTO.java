@@ -1,9 +1,8 @@
 package com.securityapi.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -12,13 +11,13 @@ import javax.validation.constraints.Size;
  * @version 1.0
  */
 
-@Getter
-@Setter
-@AllArgsConstructor
+@Data
+@Builder
 public class SignupRequestDTO {
 
     @NotNull
     @Size(max = 50)
+    @Email
     private String email;
 
     @NotNull

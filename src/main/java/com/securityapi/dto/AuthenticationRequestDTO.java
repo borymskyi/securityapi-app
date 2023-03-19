@@ -1,5 +1,6 @@
 package com.securityapi.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 import javax.validation.constraints.Email;
@@ -12,13 +13,8 @@ import javax.validation.constraints.Size;
  */
 
 @Data
+@Builder
 public class AuthenticationRequestDTO {
-    @Email(message = "Email should be valid")
-    @Size(max = 50)
-    @NotNull
     private String email;
-
-    @Size(max = 500)
-    @NotNull
     private String password;
 }

@@ -39,10 +39,12 @@ public class AuthenticationManagerFilter {
         List<String> roles = userDetails.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
-        return new JwtResponseDTO(
-                jwt,
-                userDetails.getId(),
-                userDetails.getEmail(),
-                roles);
+        return JwtResponseDTO.builder()
+                .token(jwt)
+                .type("Bearer")
+                .id(userDetails.getId())
+                .email(userDetails.getEmail())
+                .roles(roles)
+                .build();
     }
 }

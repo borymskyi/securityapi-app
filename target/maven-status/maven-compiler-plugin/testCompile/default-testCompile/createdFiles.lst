@@ -1,0 +1,4 @@
+com\securityapi\service\impl\PersonServiceImplUnitTest.class
+com\securityapi\repository\PersonRepositoryTest.class
+com\securityapi\repository\RoleRepositoryIntegrationTest.class
+com\securityapi\controller\AuthControllerIntegrationTest.class
