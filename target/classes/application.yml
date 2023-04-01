@@ -6,9 +6,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: none
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    open-in-view: false
   flyway:
     schemas: public
     baseline-on-migrate: true
+
 
 logging:
   level:

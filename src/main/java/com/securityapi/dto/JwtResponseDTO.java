@@ -1,9 +1,7 @@
 package com.securityapi.dto;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -14,10 +12,13 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class JwtResponseDTO {
-    private String token;
-    private String type;
-    private Long id;
-    private String email;
-    private List<String> roles;
+    String token;
+    String type;
+    Long id;
+    String email;
+    List<String> roles;
 }

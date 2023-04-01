@@ -1,11 +1,7 @@
 package com.securityapi.dto;
 
-import lombok.Builder;
-import lombok.Data;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 /**
  * @author Dmitrii Borymskyi
@@ -13,8 +9,10 @@ import javax.validation.constraints.Size;
  */
 
 @Data
-@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class AuthenticationRequestDTO {
-    private String email;
-    private String password;
+    String email;
+    String password;
 }

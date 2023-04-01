@@ -1,6 +1,6 @@
 package com.securityapi.repository;
 
-import com.securityapi.domain.ERole;
+import com.securityapi.domain.enums.ERole;
 import com.securityapi.domain.Person;
 import com.securityapi.domain.Role;
 import org.junit.jupiter.api.Test;
@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
  * @version 1.0
  */
 
-@Sql("/sql/datasql.sql")
 @ActiveProfiles("test-containers-flyway")
 @Testcontainers
 @Transactional
@@ -39,23 +38,23 @@ class RoleRepositoryIntegrationTest {
 
     @Test
     void test_findRoleByName() {
-        Role actualRole = roleRepository.findRoleByName(ERole.ROLE_ADMIN)
+        Role actualRole = roleRepository.findRoleByName(ERole.ROLE_MANAGER)
                 .orElseThrow(() -> new IllegalArgumentException("Error: illegal argument"));
 
-        assertEquals(actualRole.getName(), ERole.ROLE_ADMIN);
+        assertEquals(actualRole.getName(), ERole.ROLE_MANAGER);
     }
 
     @Test
     void test_addRoleToPerson(){
-        Person initPerson = personRepository.findByEmailFetchRoles("user@gmail.com")
+        Person initPerson = personRepository.findByEmailFetchRoles("operator@gmail.com")
                 .orElseThrow(() -> new UsernameNotFoundException("Error: person not found"));
-        Role role = roleRepository.findRoleByName(ERole.ROLE_ADMIN)
+        Role role = roleRepository.findRoleByName(ERole.ROLE_MANAGER)
                 .orElseThrow(() -> new IllegalArgumentException("Error: illegal argument"));
 
         initPerson.addRole(role);
         personRepository.save(initPerson);
 
-        Person actualPerson = personRepository.findByEmailFetchRoles("user@gmail.com")
+        Person actualPerson = personRepository.findByEmailFetchRoles("operator@gmail.com")
                 .orElseThrow(() -> new UsernameNotFoundException("Error: person not found"));
 
         assertThat(

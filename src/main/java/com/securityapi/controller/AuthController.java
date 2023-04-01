@@ -1,11 +1,10 @@
 package com.securityapi.controller;
 
-import com.securityapi.config.security.jwt.AuthenticationManagerFilter;
+import com.securityapi.configuration.security.jwt.AuthenticationManagerFilter;
 import com.securityapi.dto.*;
 import com.securityapi.service.PersonService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -26,7 +25,6 @@ public class AuthController {
     @PostMapping("/sign-up")
     public ResponseEntity<?> registration(@RequestBody SignupRequestDTO signupRequestDTO) {
         personService.saveProfile(signupRequestDTO);
-
         return ResponseEntity.status(HttpStatus.CREATED).body("Person created");
     }
 

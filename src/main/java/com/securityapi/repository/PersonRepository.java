@@ -1,6 +1,6 @@
 package com.securityapi.repository;
 
-import com.securityapi.domain.ERole;
+import com.securityapi.domain.enums.ERole;
 import com.securityapi.domain.Person;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,6 +1,6 @@
 package com.securityapi.repository;
 
-import com.securityapi.domain.ERole;
+import com.securityapi.domain.enums.ERole;
 import com.securityapi.domain.Person;
 import com.securityapi.domain.Role;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +29,7 @@ class PersonRepositoryTest {
     @Test
     void test_saveProfile() {
         List<Role> roles = List.of(
-                roleRepository.findRoleByName(ERole.ROLE_ADMIN)
+                roleRepository.findRoleByName(ERole.ROLE_MANAGER)
                         .orElseThrow(() -> {
                             log.error("Error: role not found!");
                             return new IllegalArgumentException("error");

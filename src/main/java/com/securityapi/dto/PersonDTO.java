@@ -1,6 +1,8 @@
 package com.securityapi.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import java.util.List;
 
@@ -11,8 +13,11 @@ import java.util.List;
 
 @Data
 @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class PersonDTO {
-    private Long id;
-    private String email;
-    private List<String> roles;
+    Long id;
+    String email;
+    List<String> roles;
 }

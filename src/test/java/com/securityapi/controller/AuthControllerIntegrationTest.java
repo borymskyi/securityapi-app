@@ -1,8 +1,7 @@
 package com.securityapi.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.securityapi.domain.ERole;
+import com.securityapi.domain.enums.ERole;
 import com.securityapi.dto.AuthenticationRequestDTO;
 import com.securityapi.dto.SignupRequestDTO;
 import org.junit.jupiter.api.BeforeEach;
@@ -10,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
@@ -26,11 +24,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * @version 1.0
  */
 
-@ActiveProfiles("test-containers-flyway")
-@Testcontainers
-@AutoConfigureMockMvc(printOnlyOnFailure = false)
-@SpringBootTest
-class AuthControllerIntegrationTest {
+class AuthControllerIntegrationTest extends BaseIntegrationTest {
 
     @SuppressWarnings("SpringJavaInjectionPointsAutowiringInspection")
     @Autowired
@@ -45,10 +39,7 @@ class AuthControllerIntegrationTest {
 
     @Test
     void test_registrationNewPerson_shouldReturnHttpStatusCREATED() throws Exception {
-        SignupRequestDTO signupRequestDTO = SignupRequestDTO.builder()
-                .email("new@gmail.com")
-                .password("qwerty")
-                .build();
+        SignupRequestDTO signupRequestDTO = new SignupRequestDTO("new@gmail.com", "qwerty");
 
         var requestBuilder = post("/api/v1/auth/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -62,10 +53,7 @@ class AuthControllerIntegrationTest {
 
     @Test
     void test_registrationExistEmail_shouldReturnResponseErrorAndHttpStatusCONFLICT() throws Exception {
-        SignupRequestDTO signupRequestDTO = SignupRequestDTO.builder()
-                .email("admin@gmail.com")
-                .password("qwerty")
-                .build();
+        SignupRequestDTO signupRequestDTO = new SignupRequestDTO("manager@gmail.com", "qwerty");
 
         var requestBuilder = post("/api/v1/auth/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -75,17 +63,14 @@ class AuthControllerIntegrationTest {
                 .andExpectAll(
                         status().isConflict(),
                         jsonPath("$.status").exists(),
-                        jsonPath("$.message").exists(),
+                        jsonPath("$.errorMessage").exists(),
                         jsonPath("$.time").exists()
                 );
     }
 
     @Test
     void test_registrationPersonWithIllegalData_shouldReturnResponseErrorAndHttpStatusBAD_REQUEST() throws Exception {
-        SignupRequestDTO signupRequestDTO = SignupRequestDTO.builder()
-                .email("")
-                .password("qwerty")
-                .build();
+        SignupRequestDTO signupRequestDTO = new SignupRequestDTO("", "qwerty");
 
         var requestBuilder = post("/api/v1/auth/sign-up")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -95,17 +80,14 @@ class AuthControllerIntegrationTest {
                 .andExpectAll(
                         status().isBadRequest(),
                         jsonPath("$.status").exists(),
-                        jsonPath("$.message").exists(),
+                        jsonPath("$.errorMessage").exists(),
                         jsonPath("$.time").exists()
                 );
     }
 
     @Test
     void test_authenticateExistingPerson_ShouldReturnToken() throws Exception {
-        AuthenticationRequestDTO preparedRequest = AuthenticationRequestDTO.builder()
-                .email("admin@gmail.com")
-                .password("qwerty")
-                .build();
+        AuthenticationRequestDTO preparedRequest = new AuthenticationRequestDTO("manager@gmail.com", "qwerty");
 
         var requestBuilder = post("/api/v1/auth/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -116,17 +98,14 @@ class AuthControllerIntegrationTest {
                         status().isOk(),
                         jsonPath("$.token").isNotEmpty(),
                         jsonPath("$.type").value("Bearer"),
-                        jsonPath("$.email").value("admin@gmail.com"),
-                        jsonPath("$.roles", hasItem(ERole.ROLE_ADMIN.toString()))
+                        jsonPath("$.email").value("manager@gmail.com"),
+                        jsonPath("$.roles", hasItem(ERole.ROLE_MANAGER.toString()))
                 );
     }
 
     @Test
     void test_authenticateWrongPerson_ReturnNotFoundMessage() throws Exception {
-        AuthenticationRequestDTO preparedRequest = AuthenticationRequestDTO.builder()
-                .email("wrong@gmail.com")
-                .password("qwerty")
-                .build();
+        AuthenticationRequestDTO preparedRequest = new AuthenticationRequestDTO("wrong@gmail.com", "qwerty");
 
         var requestBuilder = post("/api/v1/auth/sign-in")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -136,7 +115,7 @@ class AuthControllerIntegrationTest {
                 .andExpectAll(
                         status().isNotFound(),
                         jsonPath("$.status").exists(),
-                        jsonPath("$.message").exists(),
+                        jsonPath("$.errorMessage").exists(),
                         jsonPath("$.time").exists()
                 );
     }

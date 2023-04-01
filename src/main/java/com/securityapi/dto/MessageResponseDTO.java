@@ -1,17 +1,17 @@
 package com.securityapi.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 /**
  * @author Dmitrii Borymskyi
  * @version 1.0
  */
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class MessageResponseDTO {
-    private String message;
+    String message;
 }
